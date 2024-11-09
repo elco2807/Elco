@@ -1,0 +1,65 @@
+import React, { useState } from 'react';
+
+interface Photo {
+  id: number;
+  url: string;
+  memory: string;
+}
+
+const MemorialApp: React.FC = () => {
+  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [photoUrl, setPhotoUrl] = useState('');
+  const [memory, setMemory] = useState('');
+
+  const addPhoto = () => {
+    if (photoUrl && memory) {
+      const newPhoto: Photo = {
+        id: photos.length + 1,
+        url: photoUrl,
+        memory,
+      };
+      setPhotos([...photos, newPhoto]);
+      setPhotoUrl('');
+      setMemory('');
+    }
+  };
+
+  return (
+    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '600px', margin: 'auto', textAlign: 'center' }}>
+      <h1>En Memoria de Tu Querido Patito</h1>
+      <p style={{ fontStyle: 'italic', color: 'gray' }}>
+        "A veces, también simplemente escuchar y estar presente es un gran consuelo."
+      </p>
+
+      <div style={{ marginTop: '20px' }}>
+        <input 
+          type="text" 
+          placeholder="URL de la foto" 
+          value={photoUrl} 
+          onChange={(e) => setPhotoUrl(e.target.value)}
+          style={{ padding: '8px', width: '100%', marginBottom: '10px' }}
+        />
+        <textarea 
+          placeholder="Escribe un recuerdo sobre el patito" 
+          value={memory} 
+          onChange={(e) => setMemory(e.target.value)}
+          style={{ padding: '8px', width: '100%', marginBottom: '10px' }}
+        />
+        <button onClick={addPhoto} style={{ padding: '10px 20px', fontSize: '16px' }}>
+          Agregar Foto y Recuerdo
+        </button>
+      </div>
+
+      <div style={{ marginTop: '20px' }}>
+        {photos.map((photo) => (
+          <div key={photo.id} style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '10px' }}>
+            <img src={photo.url} alt={`Patito ${photo.id}`} style={{ maxWidth: '100%' }} />
+            <p>{photo.memory}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MemorialApp;
